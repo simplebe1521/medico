@@ -17,24 +17,36 @@ app.use(express.json());
 // Serve static frontend files
 app.use(express.static(path.join(__dirname)));
 
-// Simple in-memory storage for MVP (can be swapped with SQLite)
-const dataDir = path.join(__dirname, 'data');
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir);
+// Safe data storage directory (use /tmp in serverless environments like Vercel)
+const dataDir = process.env.VERCEL ? path.join('/tmp', 'medsim-data') : path.join(__dirname, 'data');
+try {
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true });
+  }
+} catch (err) {
+  console.warn('Data directory creation skipped:', err.message);
 }
 
 const getFilePath = (filename) => path.join(dataDir, filename);
 
 const readData = (filename, defaultVal) => {
-  const fp = getFilePath(filename);
-  if (fs.existsSync(fp)) {
-    return JSON.parse(fs.readFileSync(fp, 'utf-8'));
+  try {
+    const fp = getFilePath(filename);
+    if (fs.existsSync(fp)) {
+      return JSON.parse(fs.readFileSync(fp, 'utf-8'));
+    }
+  } catch (err) {
+    console.warn(`Error reading ${filename}:`, err.message);
   }
   return defaultVal;
 };
 
 const writeData = (filename, data) => {
-  fs.writeFileSync(getFilePath(filename), JSON.stringify(data, null, 2));
+  try {
+    fs.writeFileSync(getFilePath(filename), JSON.stringify(data, null, 2));
+  } catch (err) {
+    console.warn(`Error writing ${filename}:`, err.message);
+  }
 };
 
 /* ══════════════════════════════════
@@ -44,7 +56,7 @@ const writeData = (filename, data) => {
 // 1. Google Gemini API Proxy
 app.post('/api/chat', async (req, res) => {
   const { messages, context } = req.body;
-  
+
   if (!process.env.GEMINI_API_KEY) {
     return res.status(500).json({ error: 'Gemini API key not configured on server.' });
   }
@@ -66,7 +78,7 @@ ALWAYS remind the user that this is for educational purposes only and not a subs
   }
 
   // Build conversation history for Gemini
-  const chatHistory = messages.map(m => ({
+  const chatHistory = (messages || []).map(m => ({
     role: m.role === 'assistant' ? 'model' : 'user',
     parts: [{ text: m.content }]
   }));
@@ -74,7 +86,7 @@ ALWAYS remind the user that this is for educational purposes only and not a subs
   try {
     const { GoogleGenerativeAI } = require('@google/generative-ai');
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ 
+    const model = genAI.getGenerativeModel({
       model: 'gemini-3.6-flash',
       systemInstruction: systemPrompt
     });
@@ -83,7 +95,7 @@ ALWAYS remind the user that this is for educational purposes only and not a subs
     const lastMessage = chatHistory[chatHistory.length - 1];
     const result = await chat.sendMessage(lastMessage.parts[0].text);
     const response = result.response.text();
-    
+
     res.json({ message: response });
   } catch (error) {
     console.error('Gemini Error:', error.message || error);
@@ -125,16 +137,16 @@ app.post('/api/progress', (req, res) => {
   res.json({ success: true, progress: newProgress });
 });
 
-// Fallback route for SPA - exclude /api routes
-app.get('*', (req, res) => {
-  if (req.path.startsWith('/api')) {
-    return res.status(404).json({ error: 'API endpoint not found' });
-  }
+// Fallback route for SPA
+app.get('/{*path}', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`MEDSIM Backend running on port ${PORT} [Mode: ${process.env.NODE_ENV || 'development'}]`);
-});
+// Start server locally if not in Vercel serverless environment
+if (!process.env.VERCEL && require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`MEDSIM Backend running on http://localhost:${PORT}`);
+  });
+}
 
+module.exports = app;
