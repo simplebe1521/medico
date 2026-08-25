@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MEDSIM is a virtual MBBS simulation platform for medical students. Practice 3D anatomy, interactive clinical procedures, AI-driven feedback, and track your 5-year MBBS progression.">
+  <title>MEDSIM — Virtual MBBS Simulation Platform</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS Modules -->
+  <link rel="stylesheet" href="css/style.css?v=13.0">
+  <link rel="stylesheet" href="css/components.css?v=13.0">
+  <link rel="stylesheet" href="css/portal.css?v=13.0">
+  <link rel="stylesheet" href="css/simulation.css?v=13.0">
+  <link rel="stylesheet" href="css/quiz.css?v=13.0">
+  <link rel="stylesheet" href="css/dashboard.css?v=13.0">
+  <link rel="stylesheet" href="css/hero.css?v=13.0">
+  <link rel="stylesheet" href="css/notes.css?v=13.0">
+  
+  <!-- Dependencies -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- Global Annotation Tooltip & Structure Info Card -->
+  <div id="simAnnotation" class="sim-annotation">
+    <div class="annotation-card" style="max-width:340px; background:rgba(10, 16, 28, 0.95); border:1px solid #00d4ff; border-radius:12px; padding:16px; box-shadow:0 10px 30px rgba(0,0,0,0.8); backdrop-filter:blur(12px);">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div class="annotation-title" id="annotationTitle" style="font-size:1.15rem; font-weight:700; color:#fff;">Structure Name</div>
+        <div class="annotation-latin" id="annotationLatin" style="font-size:0.8rem; color:#00d4ff; font-style:italic;">Latin</div>
+      </div>
+      
+      <div id="annotationDesc" style="font-size:0.82rem; color:var(--text-secondary); margin:8px 0; line-height:1.4;">Description</div>
+      
+      <div style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:8px;">
+        <div style="font-size:0.7rem; font-weight:700; color:#10b981; text-transform:uppercase;">⚙️ Physiological Function</div>
+        <div id="annotationFunction" style="font-size:0.8rem; color:#e2e8f0; margin-top:2px;">Function details</div>
+      </div>
+
+      <div style="margin-top:8px;">
+        <div style="font-size:0.7rem; font-weight:700; color:#f59e0b; text-transform:uppercase;">🩺 Clinical Significance</div>
+        <div id="annotationClinical" style="font-size:0.8rem; color:#e2e8f0; margin-top:2px;">Clinical details</div>
+      </div>
+
+      <div style="margin-top:8px; background:rgba(124,58,237,0.15); padding:8px; border-radius:6px; border:1px solid rgba(124,58,237,0.3);">
+        <div style="font-size:0.7rem; font-weight:700; color:#a78bfa; text-transform:uppercase;">🎓 Viva Exam Question</div>
+        <div id="annotationViva" style="font-size:0.78rem; color:#fff; margin-top:2px; font-weight:500;">Viva question</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-layout">
+    <!-- ══ Sidebar Navigation ══ -->
+    <nav class="app-sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">MS</div>
+        <div class="brand-text">MEDSIM</div>
+      </div>
+      
+      <div class="sidebar-menu">
+        <div class="menu-label">Main Navigation</div>
+        <a href="#" class="nav-tab active" data-view="portal">
+          <span class="tab-icon">🏠</span> <span class="tab-label">Dashboard</span>
+        </a>
+        <a href="#" class="nav-tab" data-view="topics">
+          <span class="tab-icon">🦴</span> <span class="tab-label">Virtual Anatomy</span>
+        </a>
+        <a href="#" class="nav-tab" data-view="lab">
+          <span class="tab-icon">🧪</span> <span class="tab-label">Simulations</span>
+        </a>
+        <a href="#" class="nav-tab" data-view="cases">
+          <span class="tab-icon">📋</span> <span class="tab-label">Clinical Cases</span>
+        </a>
+        <a href="#" class="nav-tab" data-view="skills">
+          <span class="tab-icon">💉</span> <span class="tab-label">Practical Skills</span>
+        </a>
+        <a href="#" class="nav-tab" data-view="viva">
+          <span class="tab-icon">🎓</span> <span class="tab-label">Viva & Exams</span>
+        </a>
+        <a href="#" class="nav-tab" data-view="quiz">
+          <span class="tab-icon">📝</span> <span class="tab-label">Quizzes</span>
+        </a>
+        <div class="menu-label" style="margin-top:15px;">Study Tools</div>
+        <a href="#" class="nav-tab" data-view="ai">
+          <span class="tab-icon">🤖</span> <span class="tab-label">AI Assistant</span>
+        </a>
+        <a href="#" class="nav-tab" data-view="notes">
+          <span class="tab-icon">📓</span> <span class="tab-label">My Notes</span>
+        </a>
+      </div>
+      
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="user-avatar">MS</div>
+          <div class="user-info">
+            <div class="user-name">Medical Student</div>
+            <div class="user-role">Year 2 · Anatomy</div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ══ Main Content Area ══ -->
+    <main class="app-main">
+      
+      <!-- App Header -->
+      <header class="app-header">
+        <div class="header-left" id="headerBreadcrumb">
+          <!-- Dynamic breadcrumbs will go here -->
+        </div>
+        <div class="header-search">
+          <input type="text" id="globalSearch" placeholder="Search anatomy, procedures, diseases, notes..." />
+        </div>
+        <div class="header-right">
+          <div class="header-stat">
+            <span class="stat-icon">🔥</span>
+            <span class="stat-val">3 Day Streak</span>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="btnSettings">⚙️ Settings</button>
+        </div>
+      </header>
+
+      <!-- View Container -->
+      <div class="view-container">
+        
+        <!-- ════════════════════════════════════════ -->
+        <!-- VIEW: PORTAL (Landing)                   -->
+        <!-- ════════════════════════════════════════ -->
+        <!-- ════════════════════════════════════════ -->
+        <!-- VIEW: PORTAL (MEDSIM Dashboard)           -->
+        <!-- ════════════════════════════════════════ -->
+        <div id="portalView" class="view-panel active">
+          
+          <section class="portal-hero">
+            <canvas id="portalParticles" class="portal-bg"></canvas>
+            <div class="portal-hero-content animate-in" style="display:flex; align-items:center; gap:40px; justify-content:space-between;">
+              <div style="flex:1; min-width:0;">
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+                  <span class="badge" style="background:rgba(0, 212, 255, 0.15); color:#00d4ff; border:1px solid rgba(0, 212, 255, 0.4); font-weight:700;">MBBS Year 1 · Foundation Stage</span>
+                  <span class="badge" style="background:rgba(16, 185, 129, 0.15); color:#10b981; border:1px solid rgba(16, 185, 129, 0.4); font-weight:700;">Active Clinical Student</span>
+                </div>
+                
+                <h1 class="glitch" data-text="MEDSIM" style="font-size:3.2rem; font-weight:900; margin:0 0 10px 0;">MEDSIM</h1>
+                <div style="font-family:var(--font-heading); font-size:1.3rem; color:#00d4ff; font-weight:700; margin-bottom:12px; letter-spacing:0.02em;">Virtual MBBS Simulation Platform</div>
+                <p style="max-width:720px; font-size:1.05rem; line-height:1.6; color:var(--text-secondary);">Master clinical skills virtually before treating real patients. Explore 3D anatomy layers, practice hands-on procedures with real-time mistake detection, consult the AI tutor, and track your 5-year MBBS progression.</p>
+                
+                <div class="quick-stats" style="margin-top:25px; grid-template-columns:repeat(4, 1fr); max-width:800px;">
+                  <div class="qs-item">
+                    <div class="qs-val" id="qsXP" style="color:#f59e0b;">1,450 XP</div>
+                    <div class="qs-label">Simulation XP</div>
+                  </div>
+                  <div class="qs-item">
+                    <div class="qs-val" id="qsSims" style="color:#00d4ff;">4</div>
+                    <div class="qs-label">Completed Sims</div>
+                  </div>
+                  <div class="qs-item">
+                    <div class="qs-val" id="qsScore" style="color:#10b981;">92%</div>
+                    <div class="qs-label">Average Score</div>
+                  </div>
+                  <div class="qs-item">
+                    <div class="qs-val" id="qsSkills" style="color:#7c3aed;">6</div>
+                    <div class="qs-label">Skills Mastered</div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Hero Anatomy Visual -->
+              <div class="hero-anatomy-visual" style="flex:0 0 320px; max-width:320px;">
+                <img src="images/anatomy-hero.png" alt="3D Human Anatomy Visualization" style="width:100%; height:auto; border-radius:20px; filter:drop-shadow(0 0 40px rgba(0, 212, 255, 0.25)); animation:float 6s ease-in-out infinite;" />
+              </div>
+            </div>
+          </section>
+
+          <!-- Core Feature Shortcut Cards Grid -->
+          <section class="portal-features" style="padding:30px 40px 10px 40px;">
+            <div class="section-header animate-in" style="margin-bottom:20px;">
+              <h2>Core Simulation Modules</h2>
+              <p>Direct access to interactive 3D visualizations, procedural labs, clinical cases, and AI assistance.</p>
+            </div>
+            
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
+              
+              <div class="dash-card feature-shortcut-card" data-nav="topics" style="cursor:pointer; border:1px solid var(--border-subtle); transition:all 0.3s; overflow:hidden;" onclick="window.router.navigate('topics')">
+                <div style="height:140px; overflow:hidden; border-radius:10px; margin:-24px -24px 16px -24px;">
+                  <img src="images/skeleton.png" alt="Human Skeleton" style="width:100%; height:100%; object-fit:cover; object-position:center top; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <span style="font-size:1.5rem;">🦴</span>
+                  <span class="badge" style="background:rgba(0,212,255,0.1); color:#00d4ff;">3D Interactive</span>
+                </div>
+                <h3 style="margin:10px 0 6px 0; color:#fff;">Virtual Anatomy</h3>
+                <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.4;">Explore 3D human structures, toggle tissue layers (skin, muscles, organs, vessels), and review clinical viva info.</p>
+                <div style="margin-top:15px; font-size:0.8rem; font-weight:700; color:#00d4ff;">Enter Anatomy Lab ➔</div>
+              </div>
+
+              <div class="dash-card feature-shortcut-card" data-nav="lab" style="cursor:pointer; border:1px solid var(--border-subtle); transition:all 0.3s; overflow:hidden;" onclick="window.launchLab('clinical_skills', 'iv_cannulation')">
+                <div style="height:140px; overflow:hidden; border-radius:10px; margin:-24px -24px 16px -24px;">
+                  <img src="images/iv-cannulation.png" alt="IV Cannulation Procedure" style="width:100%; height:100%; object-fit:cover; object-position:center; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <span style="font-size:1.5rem;">💉</span>
+                  <span class="badge" style="background:rgba(239,68,68,0.1); color:#ef4444;">Primary Sim</span>
+                </div>
+                <h3 style="margin:10px 0 6px 0; color:#fff;">Simulation Lab</h3>
+                <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.4;">Perform 11-step Peripheral IV Cannulation on 3D arm with real-time mistake detection and performance scoring.</p>
+                <div style="margin-top:15px; font-size:0.8rem; font-weight:700; color:#ef4444;">Start IV Simulation ➔</div>
+              </div>
+
+              <div class="dash-card feature-shortcut-card" data-nav="cases" style="cursor:pointer; border:1px solid var(--border-subtle); transition:all 0.3s; overflow:hidden;" onclick="window.router.navigate('cases')">
+                <div style="height:140px; overflow:hidden; border-radius:10px; margin:-24px -24px 16px -24px;">
+                  <img src="images/heart.png" alt="Human Heart" style="width:100%; height:100%; object-fit:cover; object-position:center; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <span style="font-size:1.5rem;">📋</span>
+                  <span class="badge" style="background:rgba(245,158,11,0.1); color:#f59e0b;">Diagnostic</span>
+                </div>
+                <h3 style="margin:10px 0 6px 0; color:#fff;">Clinical Cases</h3>
+                <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.4;">Evaluate emergency patient clinical histories, interpret vital signs, and make management decisions.</p>
+                <div style="margin-top:15px; font-size:0.8rem; font-weight:700; color:#f59e0b;">Open Cases ➔</div>
+              </div>
+
+              <div class="dash-card feature-shortcut-card" data-nav="viva" style="cursor:pointer; border:1px solid var(--border-subtle); transition:all 0.3s; overflow:hidden;" onclick="window.router.navigate('viva')">
+                <div style="height:140px; overflow:hidden; border-radius:10px; margin:-24px -24px 16px -24px;">
+                  <img src="images/brain.png" alt="Human Brain" style="width:100%; height:100%; object-fit:cover; object-position:center; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <span style="font-size:1.5rem;">🎓</span>
+                  <span class="badge" style="background:rgba(124,58,237,0.1); color:#7c3aed;">Exams</span>
+                </div>
+                <h3 style="margin:10px 0 6px 0; color:#fff;">Practical Exams</h3>
+                <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.4;">Test your rapid recall with spotter examinations and viva questions covering all major clinical disciplines.</p>
+                <div style="margin-top:15px; font-size:0.8rem; font-weight:700; color:#7c3aed;">Take Viva ➔</div>
+              </div>
+
+              <div class="dash-card feature-shortcut-card" data-nav="ai" style="cursor:pointer; border:1px solid var(--border-subtle); transition:all 0.3s; overflow:hidden;" onclick="window.router.navigate('ai')">
+                <div style="height:140px; overflow:hidden; border-radius:10px; margin:-24px -24px 16px -24px;">
+                  <img src="images/lungs.png" alt="Human Lungs" style="width:100%; height:100%; object-fit:cover; object-position:center; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <span style="font-size:1.5rem;">🤖</span>
+                  <span class="badge" style="background:rgba(16,185,129,0.1); color:#10b981;">AI Assistant</span>
+                </div>
+                <h3 style="margin:10px 0 6px 0; color:#fff;">AI Tutor</h3>
+                <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.4;">Ask medical questions, request procedure explanations, get instant hints, or generate practice viva questions.</p>
+                <div style="margin-top:15px; font-size:0.8rem; font-weight:700; color:#10b981;">Consult AI Tutor ➔</div>
+              </div>
+
+              <div class="dash-card feature-shortcut-card" data-nav="notes" style="cursor:pointer; border:1px solid var(--border-subtle); transition:all 0.3s; overflow:hidden;" onclick="window.router.navigate('notes')">
+                <div style="height:140px; overflow:hidden; border-radius:10px; margin:-24px -24px 16px -24px;">
+                  <img src="images/kidneys.png" alt="Human Kidneys" style="width:100%; height:100%; object-fit:cover; object-position:center; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <span style="font-size:1.5rem;">📓</span>
+                  <span class="badge" style="background:rgba(236,72,153,0.1); color:#ec4899;">Notes</span>
+                </div>
+                <h3 style="margin:10px 0 6px 0; color:#fff;">My Notes</h3>
+                <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.4;">Record personal study observations, clinical pearls, and procedure reminders directly linked to your simulations.</p>
+                <div style="margin-top:15px; font-size:0.8rem; font-weight:700; color:#ec4899;">Open My Notes ➔</div>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- 5-Year MBBS Roadmap Container -->
+          <section style="padding:20px 40px 40px 40px;">
+            <div id="mbbsRoadmapContainer">
+              <!-- Dynamically populated by roadmap.js -->
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- VIEW: TOPICS                             -->
+        <!-- ════════════════════════════════════════ -->
+        <div id="topicsView" class="view-panel">
+          <div class="topics-container">
+            <div class="breadcrumb" id="topicsBreadcrumb"></div>
+            
+            <div class="topics-header animate-in">
+              <h1 id="topicsHeader">Topics</h1>
+              <p>Select a lesson to enter the Simulation Lab.</p>
+            </div>
+
+            <div class="topic-grid" id="topicGrid">
+              <!-- Dynamically populated by app.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- VIEW: SIMULATION LAB                     -->
+        <!-- ════════════════════════════════════════ -->
+        <div id="labView" class="view-panel lab-view">
+          <div id="ivSimContainer" style="display:none; height:100%; width:100%; box-sizing:border-box;"></div>
+          <div class="lab-container" id="standardLabContainer">
+            
+            <!-- Left Panel: Tools & Layers -->
+            <div class="lab-left-panel">
+              <!-- Learning Mode -->
+              <div class="lab-panel">
+                <div class="lab-panel-title">🧠 Learning Mode</div>
+                <div class="learning-mode-group">
+                  <button class="mode-btn active" data-mode="beginner">Beginner</button>
+                  <button class="mode-btn" data-mode="expert">Expert</button>
+                </div>
+              </div>
+
+              <!-- Layers -->
+              <div class="lab-panel">
+                <div class="lab-panel-title">🔍 Tissue Layers</div>
+                <div class="layer-list">
+                  <button class="layer-toggle active" data-layer="skin">
+                    <div class="layer-color" style="background:#7ecbf5"></div>
+                    <span class="layer-name">Skin / Integumentary</span>
+                    <div class="layer-switch"></div>
+                  </button>
+                  <button class="layer-toggle" data-layer="muscle">
+                    <div class="layer-color" style="background:#cc3344"></div>
+                    <span class="layer-name">Musculature</span>
+                    <div class="layer-switch"></div>
+                  </button>
+                  <button class="layer-toggle" data-layer="skeleton">
+                    <div class="layer-color" style="background:#f5f0e8"></div>
+                    <span class="layer-name">Skeletal System</span>
+                    <div class="layer-switch"></div>
+                  </button>
+                  <button class="layer-toggle active" data-layer="organs">
+                    <div class="layer-color" style="background:#cc2233"></div>
+                    <span class="layer-name">Internal Organs</span>
+                    <div class="layer-switch"></div>
+                  </button>
+                  <button class="layer-toggle" data-layer="nervous">
+                    <div class="layer-color" style="background:#ffd700"></div>
+                    <span class="layer-name">Nervous System</span>
+                    <div class="layer-switch"></div>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Instruments -->
+              <div class="lab-panel">
+                <div class="lab-panel-title">🔧 Instruments</div>
+                <div class="instrument-list" id="instrumentList">
+                  <!-- Dynamically populated -->
+                </div>
+                <!-- Tool Detail Box -->
+                <div id="toolDetail"></div>
+              </div>
+            </div>
+
+            <!-- Viewport Area -->
+            <div class="lab-viewport-area">
+              
+              <!-- View Modes Toolbar -->
+              <div class="view-modes-toolbar">
+                <button class="vm-btn active" data-mode="normal"><span class="vm-icon">👁️</span> Normal</button>
+                <button class="vm-btn" data-mode="xray"><span class="vm-icon">💀</span> X-Ray</button>
+                <button class="vm-btn" data-mode="transparent"><span class="vm-icon">👻</span> Transparent</button>
+                <button class="vm-btn" data-mode="exploded"><span class="vm-icon">💥</span> Exploded</button>
+                <button class="vm-btn" data-mode="crosssection"><span class="vm-icon">🔪</span> Cross-Section</button>
+              </div>
+
+              <!-- WebGL Canvas Container -->
+              <div id="simViewport" class="sim-viewport"></div>
+
+              <!-- HUD & Controls -->
+              <div class="sim-hud">
+                <div class="hud-badge"><div class="dot green"></div> System Nominal</div>
+                <div class="hud-badge"><div class="dot blue"></div> Telemetry Active</div>
+              </div>
+              <div class="sim-viewport-controls">
+                <button class="vp-ctrl-btn" id="vpZoomIn" title="Zoom In">➕</button>
+                <button class="vp-ctrl-btn" id="vpZoomOut" title="Zoom Out">➖</button>
+                <button class="vp-ctrl-btn" id="vpReset" title="Reset View">🔄</button>
+              </div>
+            </div>
+
+            <!-- Right Panel: AI Tutor -->
+            <div class="lab-right-panel">
+              <div class="tutor-header">
+                <div class="tutor-status"></div>
+                AI Clinical Tutor
+              </div>
+              <div class="tutor-messages" id="tutorMessages">
+                <!-- Messages go here -->
+              </div>
+              <div class="tutor-actions">
+                <button class="tutor-action-btn" id="askWhatIsThis"><span class="ta-icon">🔍</span> What is this structure?</button>
+                <button class="tutor-action-btn" id="askWhy"><span class="ta-icon">🧠</span> Tell me more</button>
+                <button class="tutor-action-btn" id="toggleVoice"><span class="ta-icon">🔇</span> Voice Off</button>
+                <div class="tutor-chat-row">
+                  <input type="text" id="tutorChatInput" class="tutor-chat-input" placeholder="Ask me anything…" autocomplete="off">
+                  <button id="tutorChatSend" class="tutor-chat-send" title="Send">➤</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Lesson Bar -->
+            <div class="lab-lesson-bar">
+              <div class="lesson-info">
+                <div class="lesson-title-row">
+                  <span class="lesson-badge" id="lessonBadge">Step 1 / 10</span>
+                  <span class="lesson-name" id="lessonName">Heart Dissection</span>
+                </div>
+                <div class="lesson-step" id="lessonStep">Observe the intact body. Rotate the model 360° to view the anterior thorax.</div>
+              </div>
+              <div class="lesson-progress-wrap">
+                <div class="lesson-progress-label" id="lessonProgressLabel">10%</div>
+                <div class="lesson-progress-bar">
+                  <div class="lesson-progress-fill" id="lessonProgressFill" style="width:10%"></div>
+                </div>
+              </div>
+              <div class="lesson-nav">
+                <button class="lesson-nav-btn" id="lessonPrev" disabled>←</button>
+                <button class="lesson-nav-btn" id="lessonNext">→</button>
+                <button class="lesson-nav-btn complete-btn" id="lessonComplete" style="display:none;">Take Quiz</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- VIEW: QUIZ                               -->
+        <!-- ════════════════════════════════════════ -->
+        <div id="quizView" class="view-panel quiz-view">
+          <div class="quiz-container">
+            <div class="quiz-header">
+              <h2 id="quizTitle">Knowledge Assessment</h2>
+              <div class="quiz-counter" id="quizCounter">Question 1 / 5</div>
+            </div>
+            <div class="quiz-progress"><div class="quiz-progress-fill" id="quizProgressFill" style="width:20%"></div></div>
+            <div class="quiz-body" id="quizBody">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- VIEW: DASHBOARD                          -->
+        <!-- ════════════════════════════════════════ -->
+        <div id="dashboardView" class="view-panel dashboard-view">
+          <div class="dash-container animate-in">
+            <div class="dash-header">
+              <h1>Student Dashboard</h1>
+              <p>Track your academic progress and clinical skill acquisitions.</p>
+            </div>
+
+            <div class="dash-grid">
+              
+              <!-- Main Overview -->
+              <div class="dash-card dash-overview">
+                <h3>Overall Progress</h3>
+                <div class="perf-ring-container">
+                  <svg class="perf-ring" viewBox="0 0 120 120">
+                    <circle class="perf-ring-bg" cx="60" cy="60" r="52"></circle>
+                    <circle class="perf-ring-fill" id="perfRingFill" cx="60" cy="60" r="52" style="stroke-dasharray:326.7; stroke-dashoffset:100;"></circle>
+                  </svg>
+                  <div class="perf-ring-label" id="perfRingLabel">0%</div>
+                </div>
+                
+                <div class="dash-metrics-grid">
+                  <div class="dash-metric">
+                    <div class="metric-val" id="dashLessons">0</div>
+                    <div class="metric-label">Lessons</div>
+                  </div>
+                  <div class="dash-metric">
+                    <div class="metric-val" id="dashQuizzes">0</div>
+                    <div class="metric-label">Quizzes</div>
+                  </div>
+                  <div class="dash-metric">
+                    <div class="metric-val" id="dashAvgScore">—</div>
+                    <div class="metric-label">Avg Score</div>
+                  </div>
+                  <div class="dash-metric">
+                    <div class="metric-val" id="dashTime">0m</div>
+                    <div class="metric-label">Study Time</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Subject Progress -->
+              <div class="dash-card">
+                <h3>Subject Mastery</h3>
+                <div class="subject-progress-list" id="subjectProgressList">
+                  <!-- Dynamically populated -->
+                </div>
+              </div>
+
+              <!-- Achievements -->
+              <div class="dash-card dash-wide">
+                <h3>Clinical Achievements</h3>
+                <div class="achievement-grid" id="achievementGrid">
+                  <!-- Dynamically populated -->
+                </div>
+              </div>
+
+              <!-- Recent History -->
+              <div class="dash-card dash-wide">
+                <h3>Study History</h3>
+                <div class="history-list" id="historyList">
+                  <!-- Dynamically populated -->
+                </div>
+              </div>
+
+            </div>
+            </div>
+          </div>
+        </div>
+        <!-- ════════════════════════════════════════ -->
+        <!-- NEW VIEWS (Cases, Skills, Viva, AI, Notes) -->
+        <!-- ════════════════════════════════════════ -->
+        <div id="casesView" class="view-panel">
+          <div class="dash-container animate-in">
+            <div class="dash-header">
+              <h1>Clinical Case Simulator</h1>
+              <p>Diagnose and manage virtual patients based on clinical histories.</p>
+            </div>
+            <div id="casesContainer"></div>
+          </div>
+        </div>
+
+        <div id="skillsView" class="view-panel">
+          <div class="dash-container animate-in">
+            <div class="dash-header">
+              <h1>Practical Skills</h1>
+              <p>Step-by-step simulations for standard clinical procedures.</p>
+            </div>
+            <div id="skillsContainer"></div>
+          </div>
+        </div>
+
+        <div id="vivaView" class="view-panel">
+          <div class="dash-container animate-in">
+            <div class="dash-header">
+              <h1>Viva & Practical Exams</h1>
+              <p>Test your knowledge with simulated spotters and viva questions.</p>
+            </div>
+            <div id="vivaContainer"></div>
+          </div>
+        </div>
+
+        <div id="aiView" class="view-panel">
+          <div class="dash-container animate-in" style="height: 100%; display: flex; flex-direction: column;">
+            <div class="dash-header">
+              <h1>AI Medical Assistant</h1>
+              <p>Ask questions, request explanations, or generate MCQs.</p>
+              <div class="ai-disclaimer" style="font-size:0.8rem; color:var(--text-secondary); margin-top:5px;">
+                This AI assistant is intended for educational purposes and does not replace clinical supervision or professional medical judgment.
+              </div>
+            </div>
+            <div id="aiContainer" style="flex:1; display:flex; flex-direction:column; background:rgba(255,255,255,0.05); border-radius:12px; padding:20px;">
+              <!-- AI Chat UI will be injected here -->
+            </div>
+          </div>
+        </div>
+
+        <div id="notesView" class="view-panel">
+          <div class="dash-container animate-in" style="height: 100%; display: flex; flex-direction: column;">
+            <div class="dash-header">
+              <h1>My Notes</h1>
+              <p>Personal study notes and clinical observations.</p>
+            </div>
+            <div id="notesContainer" style="flex:1; display:flex; gap:20px;">
+              <!-- Notes UI will be injected here -->
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- end view-container -->
+    </main>
+  </div>
+
+  <!-- ══ Settings Modal (AI Tutor API config) ══ -->
+  <div id="settingsModal" class="modal-overlay" style="display:none;">
+    <div class="modal-card">
+      <h3>⚙️ AI Tutor Settings</h3>
+      <p>The AI Tutor uses your own API key to answer freeform questions. Your key is stored only in this browser (localStorage) — it is never sent anywhere except directly to the provider you choose.</p>
+
+      <div style="display:flex; flex-direction:column; gap: var(--space-md); margin-bottom: var(--space-lg);">
+        <div>
+          <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Provider</label>
+          <select id="settingsProvider" style="width:100%; padding:0.6rem; border-radius:var(--radius-sm); background:var(--bg-tertiary); color:var(--text-primary); border:1px solid var(--border-subtle);">
+            <option value="openai">ChatGPT (OpenAI)</option>
+            <option value="anthropic">Claude (Anthropic)</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">API Key</label>
+          <input type="password" id="settingsApiKey" placeholder="sk-..." style="width:100%; padding:0.6rem; border-radius:var(--radius-sm); background:var(--bg-tertiary); color:var(--text-primary); border:1px solid var(--border-subtle);">
+        </div>
+        <div>
+          <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:4px;">Model (optional — leave blank for default)</label>
+          <input type="text" id="settingsModel" placeholder="e.g. gpt-4o-mini or claude-sonnet-4-5-20250929" style="width:100%; padding:0.6rem; border-radius:var(--radius-sm); background:var(--bg-tertiary); color:var(--text-primary); border:1px solid var(--border-subtle);">
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary btn-sm" id="settingsCancel">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="settingsSave">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Application Script -->
+  <script type="module" src="js/app.js?v=13.0"></script>
+</body>
+</html>

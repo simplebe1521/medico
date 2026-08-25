@@ -1,0 +1,214 @@
+/* ================================
+   ImmersiMed v2 — Portal & Topic Browser
+   ================================ */
+
+/* ══ Portal Hero (compact) ══ */
+.portal-hero {
+  position: relative;
+  text-align: left;
+  padding: var(--space-2xl) var(--space-xl) var(--space-xl);
+  overflow: hidden;
+}
+.portal-hero::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at 20% 30%, rgba(0,212,255,0.06) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 60%, rgba(124,58,237,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+.portal-hero canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+.portal-hero > * { position: relative; z-index: 1; }
+.portal-hero h1 { margin-bottom: var(--space-sm); }
+.portal-hero > p { max-width: 720px; margin-bottom: var(--space-xl); }
+
+.portal-hero-content {
+  max-width: 100%;
+}
+
+/* Quick Stats */
+.quick-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+  max-width: 800px;
+}
+.qs-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-lg);
+  background: rgba(17, 24, 39, 0.6);
+  border: 1px solid var(--border-subtle);
+  backdrop-filter: blur(10px);
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+.qs-item:hover {
+  border-color: var(--border-glow);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+.qs-item .qs-val {
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--accent-primary);
+  font-family: var(--font-heading);
+}
+.qs-item .qs-label {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ══ Subject Grid ══ */
+.portal-subjects { padding: 0 var(--space-xl) var(--space-3xl); }
+.portal-subjects > h2 { margin-bottom: var(--space-xl); }
+
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-lg);
+}
+
+.subject-card {
+  background: var(--gradient-card); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg); padding: var(--space-xl);
+  cursor: pointer; transition: all var(--duration-normal) var(--ease-smooth);
+  position: relative; overflow: hidden; text-align: center;
+}
+.subject-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--card-accent, var(--gradient-hero));
+  transform: scaleX(0); transition: transform var(--duration-normal) var(--ease-smooth);
+  transform-origin: left;
+}
+.subject-card:hover { border-color: var(--border-glow); transform: translateY(-6px); box-shadow: var(--shadow-glow); }
+.subject-card:hover::before { transform: scaleX(1); }
+
+.subject-icon {
+  font-size: 2.5rem; margin-bottom: var(--space-md); display: block;
+  filter: drop-shadow(0 0 8px rgba(0,212,255,0.3));
+}
+.subject-card h3 { font-size: 1.05rem; margin-bottom: var(--space-xs); }
+.subject-card > p { font-size: 0.8rem; margin-bottom: var(--space-md); }
+
+.subject-progress-bar {
+  width: 100%; height: 4px; background: var(--bg-tertiary);
+  border-radius: 2px; overflow: hidden; margin-top: var(--space-sm);
+}
+.subject-progress-fill {
+  height: 100%; border-radius: 2px;
+  background: var(--gradient-medical); transition: width 0.5s var(--ease-smooth);
+}
+.subject-progress-label {
+  font-size: 0.7rem; color: var(--text-muted); margin-top: 4px;
+  font-family: var(--font-mono);
+}
+
+/* Lock overlay for coming soon */
+.subject-card.locked { opacity: 0.5; pointer-events: none; }
+.subject-card.locked::after {
+  content: '🔒 Coming Soon'; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.75rem; font-weight: 600; color: var(--text-muted);
+  background: rgba(10,14,23,0.85); padding: 0.3rem 0.8rem;
+  border-radius: var(--radius-full);
+}
+
+/* Recent Activity */
+.portal-recent { padding: 0 var(--space-xl) var(--space-3xl); }
+.portal-recent h3 { margin-bottom: var(--space-lg); }
+.recent-list { display: flex; flex-direction: column; gap: var(--space-sm); }
+.recent-item {
+  display: flex; align-items: center; gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg); border-radius: var(--radius-md);
+  background: var(--gradient-card); border: 1px solid var(--border-subtle);
+  transition: border-color var(--duration-fast) var(--ease-smooth);
+}
+.recent-item:hover { border-color: var(--border-glow); }
+.recent-icon { font-size: 1.5rem; flex-shrink: 0; }
+.recent-info { flex: 1; }
+.recent-info .recent-title { font-size: 0.9rem; font-weight: 600; }
+.recent-info .recent-meta { font-size: 0.75rem; color: var(--text-muted); }
+.recent-score {
+  font-family: var(--font-mono); font-size: 0.82rem; font-weight: 600;
+  color: var(--accent-medical);
+}
+
+/* ══ Topic Browser ══ */
+.topics-view { padding: var(--space-xl); }
+.topics-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: var(--space-2xl);
+}
+.topics-header h2 { display: flex; align-items: center; gap: var(--space-sm); }
+.topics-header .subject-icon-sm { font-size: 1.5rem; }
+
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-lg);
+}
+
+.topic-card {
+  background: var(--gradient-card); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg); padding: var(--space-xl);
+  cursor: pointer; transition: all var(--duration-normal) var(--ease-smooth);
+  position: relative; overflow: hidden;
+}
+.topic-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--gradient-hero);
+  transform: scaleX(0); transition: transform var(--duration-normal) var(--ease-smooth);
+  transform-origin: left;
+}
+.topic-card:hover { border-color: var(--border-glow); transform: translateY(-4px); box-shadow: var(--shadow-glow); }
+.topic-card:hover::before { transform: scaleX(1); }
+
+.topic-card-icon { font-size: 2rem; margin-bottom: var(--space-md); }
+.topic-card h4 { margin-bottom: var(--space-sm); }
+.topic-card > p { font-size: 0.85rem; margin-bottom: var(--space-md); }
+
+.topic-meta {
+  display: flex; align-items: center; gap: var(--space-md); flex-wrap: wrap;
+}
+.topic-meta-item {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 0.72rem; color: var(--text-muted);
+}
+.difficulty-badge {
+  padding: 2px 8px; border-radius: var(--radius-full);
+  font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+}
+.difficulty-beginner { background: rgba(16,185,129,0.12); color: var(--accent-medical); }
+.difficulty-intermediate { background: rgba(245,158,11,0.12); color: var(--accent-warning); }
+.difficulty-advanced { background: rgba(239,68,68,0.12); color: var(--accent-danger); }
+
+.topic-card .completion-check {
+  position: absolute; top: var(--space-md); right: var(--space-md);
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--accent-medical); color: var(--bg-primary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 700;
+}
+
+/* Back Button */
+.back-btn {
+  display: inline-flex; align-items: center; gap: var(--space-sm);
+  padding: 0.45rem 1rem; border-radius: var(--radius-full);
+  font-size: 0.82rem; font-weight: 500; color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+.back-btn:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
+
+@media (max-width: 768px) {
+  .subject-grid { grid-template-columns: repeat(2, 1fr); }
+  .topic-grid { grid-template-columns: 1fr; }
+  .portal-quick-stats { flex-direction: column; align-items: center; }
+  .hero-anatomy-visual { display: none !important; }
+  .quick-stats { grid-template-columns: repeat(2, 1fr) !important; }
+}

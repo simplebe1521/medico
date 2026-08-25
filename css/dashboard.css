@@ -1,0 +1,385 @@
+/* ================================
+   MEDSIM — Student Dashboard & Feature Cards
+   ================================ */
+
+/* ══ Dashboard View Container ══ */
+.dashboard-view { padding: var(--space-xl); }
+
+.dash-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.dash-header {
+  margin-bottom: var(--space-2xl);
+}
+.dash-header h1 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+}
+.dash-header p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ══ Dashboard Grid ══ */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+}
+
+/* ══ Dash Cards ══ */
+.dash-card {
+  background: var(--gradient-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  transition: all var(--duration-normal) var(--ease-smooth);
+}
+.dash-card:hover {
+  border-color: var(--border-glow);
+}
+.dash-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-lg);
+}
+.dash-card.dash-wide {
+  grid-column: 1 / -1;
+}
+.dash-card.dash-overview {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-xl);
+  align-items: center;
+}
+.dash-card.dash-overview h3 {
+  grid-column: 1 / -1;
+}
+
+/* ══ Performance Ring ══ */
+.perf-ring-container {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.perf-ring-container .perf-ring {
+  width: 140px;
+  height: 140px;
+  transform: rotate(-90deg);
+}
+.perf-ring-container .perf-ring circle {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+.perf-ring-bg {
+  stroke: var(--bg-tertiary);
+}
+.perf-ring-fill {
+  stroke: url(#ringGradient, var(--accent-primary));
+  stroke: var(--accent-primary);
+  transition: stroke-dashoffset 1s var(--ease-smooth);
+}
+.perf-ring-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent-primary);
+}
+
+/* ══ Dash Metrics Grid ══ */
+.dash-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+}
+.dash-metric {
+  text-align: center;
+  padding: var(--space-md);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+.dash-metric:hover {
+  border-color: var(--border-glow);
+  background: rgba(0, 212, 255, 0.03);
+  transform: translateY(-2px);
+}
+.metric-val {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--accent-primary);
+  margin-bottom: 2px;
+}
+.metric-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ══ Overview Cards (stat row) ══ */
+.dash-stat-card {
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  background: var(--gradient-card);
+  border: 1px solid var(--border-subtle);
+  transition: all var(--duration-normal) var(--ease-smooth);
+}
+.dash-stat-card:hover {
+  border-color: var(--border-glow);
+  transform: translateY(-3px);
+}
+.dash-stat-card .dsc-icon {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-sm);
+}
+.dash-stat-card .dsc-value {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+.dash-stat-card .dsc-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.dash-card-title {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.dash-card.full-width { grid-column: 1 / -1; }
+
+/* ══ Subject Progress ══ */
+.subject-progress-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+.sp-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+.sp-icon { font-size: 1.3rem; flex-shrink: 0; }
+.sp-info { flex: 1; min-width: 0; }
+.sp-name { font-size: 0.88rem; font-weight: 600; margin-bottom: 4px; }
+.sp-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-tertiary);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.sp-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s var(--ease-smooth);
+}
+.sp-bar-fill.anatomy { background: linear-gradient(90deg, #00d4ff, #0ea5e9); }
+.sp-bar-fill.physiology { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
+.sp-bar-fill.surgery { background: linear-gradient(90deg, #ef4444, #f87171); }
+.sp-bar-fill.pathology { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.sp-bar-fill.histology { background: linear-gradient(90deg, #10b981, #34d399); }
+.sp-bar-fill.forensic { background: linear-gradient(90deg, #f43f5e, #fb7185); }
+.sp-bar-fill.clinical_skills { background: linear-gradient(90deg, #ef4444, #f97316); }
+.sp-pct {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  width: 40px;
+  text-align: right;
+}
+
+/* ══ Achievements ══ */
+.achievement-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: var(--space-md);
+}
+.achievement-badge {
+  text-align: center;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border-subtle);
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+.achievement-badge:hover {
+  border-color: var(--border-glow);
+  transform: translateY(-3px);
+}
+.achievement-badge.earned {
+  border-color: rgba(245,158,11,0.3);
+  background: rgba(245,158,11,0.05);
+}
+.achievement-badge.locked { opacity: 0.35; }
+.badge-icon { font-size: 2rem; margin-bottom: 6px; display: block; }
+.badge-name { font-size: 0.65rem; font-weight: 600; color: var(--text-muted); line-height: 1.3; }
+.achievement-badge.earned .badge-name { color: var(--accent-warning); }
+
+/* ══ Study History ══ */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid rgba(148,163,184,0.05);
+}
+.history-item:last-child { border-bottom: none; }
+.history-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.history-dot.completed { background: var(--accent-medical); }
+.history-dot.in-progress { background: var(--accent-warning); }
+.history-dot.failed { background: var(--accent-danger); }
+.history-info { flex: 1; }
+.history-title { font-size: 0.85rem; font-weight: 500; }
+.history-time { font-size: 0.72rem; color: var(--text-muted); }
+.history-score {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* ══ Empty State ══ */
+.dash-empty {
+  text-align: center;
+  padding: var(--space-3xl);
+  color: var(--text-muted);
+}
+.dash-empty .empty-icon {
+  font-size: 3rem;
+  margin-bottom: var(--space-md);
+  opacity: 0.4;
+}
+.dash-empty p { font-size: 0.9rem; }
+
+/* ══ Feature Shortcut Cards (Portal) ══ */
+.feature-shortcut-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg) !important;
+  padding: var(--space-xl) !important;
+  transition: all 0.35s var(--ease-smooth) !important;
+}
+.feature-shortcut-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-hero);
+  transform: scaleX(0);
+  transition: transform 0.35s var(--ease-smooth);
+  transform-origin: left;
+}
+.feature-shortcut-card:hover {
+  border-color: var(--border-glow) !important;
+  transform: translateY(-6px) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), var(--shadow-glow) !important;
+}
+.feature-shortcut-card:hover::before {
+  transform: scaleX(1);
+}
+.feature-shortcut-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(0, 212, 255, 0.04), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+.feature-shortcut-card:hover::after {
+  opacity: 1;
+}
+
+/* ══ Roadmap Year Cards ══ */
+.roadmap-year-card:hover {
+  border-color: var(--border-glow) !important;
+  box-shadow: var(--shadow-glow) !important;
+}
+
+.roadmap-subject-chip:hover {
+  border-color: rgba(0, 212, 255, 0.3) !important;
+  background: rgba(0, 212, 255, 0.04) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* ══ Badge ══ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* ══ Responsive ══ */
+@media (max-width: 1024px) {
+  .dash-card.dash-overview {
+    grid-template-columns: 1fr;
+  }
+  .perf-ring-container {
+    margin: 0 auto;
+  }
+  .dash-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .dash-grid { grid-template-columns: 1fr; }
+  .dash-metrics-grid { grid-template-columns: 1fr 1fr; }
+  .dash-container { padding: var(--space-md); }
+}

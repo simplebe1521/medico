@@ -1,0 +1,134 @@
+/* Notes System Styles */
+.notes-sidebar {
+  width: 300px;
+  background: rgba(10, 14, 23, 0.7);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.notes-actions {
+  padding: 15px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.notes-search {
+  padding: 10px 15px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.notes-search input {
+  width: 100%;
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  color: white;
+}
+
+.notes-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.note-item {
+  padding: 15px;
+  border-bottom: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.note-item:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.note-item.active {
+  background: rgba(0, 212, 255, 0.1);
+  border-left: 3px solid var(--accent-medical);
+}
+
+.note-title {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: var(--text-primary);
+}
+
+.note-meta {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.note-editor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: rgba(10, 14, 23, 0.4);
+}
+
+.editor-header {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.editor-title {
+  flex: 2;
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: white;
+  padding: 5px;
+  transition: border-color 0.3s;
+}
+
+.editor-title:focus {
+  outline: none;
+  border-bottom-color: var(--accent-medical);
+}
+
+.editor-tag {
+  flex: 1;
+  font-size: 1rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  color: var(--accent-blue);
+  padding: 5px 10px;
+}
+
+.editor-textarea {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  resize: none;
+  padding: 10px;
+}
+
+.editor-textarea:focus {
+  outline: none;
+}
+
+.editor-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+}

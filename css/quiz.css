@@ -1,0 +1,170 @@
+/* ================================
+   ImmersiMed v2 — Quiz System
+   ================================ */
+
+.quiz-view { padding: var(--space-xl); }
+
+.quiz-container {
+  max-width: 900px; margin: 0 auto;
+}
+
+/* Quiz Header */
+.quiz-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: var(--space-2xl); padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.quiz-header h2 { font-size: 1.4rem; }
+.quiz-meta { display: flex; align-items: center; gap: var(--space-lg); }
+.quiz-counter {
+  font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted);
+}
+.quiz-timer {
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-warning);
+}
+.quiz-progress-bar {
+  width: 200px; height: 4px; background: var(--bg-tertiary);
+  border-radius: 2px; overflow: hidden;
+}
+.quiz-progress-fill {
+  height: 100%; background: var(--gradient-medical); border-radius: 2px;
+  transition: width 0.4s var(--ease-smooth);
+}
+
+/* Quiz Body */
+.quiz-body {
+  background: var(--gradient-card); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl); padding: var(--space-2xl);
+  min-height: 400px;
+}
+
+.quiz-question {
+  text-align: center; margin-bottom: var(--space-2xl);
+}
+.quiz-question p {
+  font-size: 1.15rem; color: var(--text-primary); font-weight: 500;
+  margin-bottom: var(--space-lg);
+}
+
+/* Quiz 3D Preview */
+.quiz-3d-area {
+  width: 100%; height: 280px; border-radius: var(--radius-lg);
+  background: radial-gradient(ellipse at center, #0d1320, #060a12);
+  border: 1px solid var(--border-subtle);
+  margin-bottom: var(--space-xl);
+  overflow: hidden; position: relative;
+}
+.quiz-3d-area canvas { width: 100% !important; height: 100% !important; }
+
+.quiz-organ-label {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  font-size: 3rem; animation: pulse 2s infinite;
+  filter: drop-shadow(0 0 15px rgba(0,212,255,0.5));
+}
+
+/* Answer Options */
+.quiz-options {
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);
+}
+
+.quiz-option {
+  padding: var(--space-lg); border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);
+  font-size: 0.95rem; font-weight: 500; color: var(--text-primary);
+  text-align: left; cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-smooth);
+  display: flex; align-items: center; gap: var(--space-md);
+}
+.quiz-option:hover {
+  border-color: var(--accent-primary); background: rgba(0,212,255,0.05);
+  transform: translateX(4px);
+}
+.quiz-option .opt-letter {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--bg-tertiary); display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; font-weight: 700; color: var(--text-muted); flex-shrink: 0;
+}
+.quiz-option:hover .opt-letter { background: rgba(0,212,255,0.15); color: var(--accent-primary); }
+
+/* Answer States */
+.quiz-option.correct {
+  border-color: var(--accent-medical); background: rgba(16,185,129,0.08);
+  pointer-events: none;
+}
+.quiz-option.correct .opt-letter { background: var(--accent-medical); color: var(--bg-primary); }
+
+.quiz-option.incorrect {
+  border-color: var(--accent-danger); background: rgba(239,68,68,0.06);
+  pointer-events: none; opacity: 0.7;
+}
+.quiz-option.incorrect .opt-letter { background: var(--accent-danger); color: var(--bg-primary); }
+
+.quiz-option.disabled { pointer-events: none; opacity: 0.5; }
+
+/* Feedback */
+.quiz-feedback {
+  margin-top: var(--space-xl); padding: var(--space-lg);
+  border-radius: var(--radius-md); display: none;
+  animation: fadeInUp 0.4s var(--ease-smooth);
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct-feedback {
+  background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2);
+}
+.quiz-feedback.incorrect-feedback {
+  background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2);
+}
+.quiz-feedback .feedback-title {
+  font-weight: 700; font-size: 1rem; margin-bottom: var(--space-xs);
+}
+.quiz-feedback .feedback-text { font-size: 0.88rem; }
+.quiz-feedback.correct-feedback .feedback-title { color: var(--accent-medical); }
+.quiz-feedback.incorrect-feedback .feedback-title { color: var(--accent-danger); }
+
+/* Quiz Navigation */
+.quiz-nav {
+  display: flex; justify-content: center; margin-top: var(--space-xl); gap: var(--space-md);
+}
+
+/* ══ Quiz Results ══ */
+.quiz-results {
+  text-align: center; padding: var(--space-3xl) 0;
+}
+.results-icon { font-size: 4rem; margin-bottom: var(--space-lg); }
+.results-score {
+  font-family: var(--font-heading); font-size: 4rem; font-weight: 900;
+  margin-bottom: var(--space-sm);
+}
+.results-score.pass { color: var(--accent-medical); }
+.results-score.fail { color: var(--accent-danger); }
+.results-label { font-size: 1rem; color: var(--text-secondary); margin-bottom: var(--space-2xl); }
+
+.results-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg);
+  max-width: 500px; margin: 0 auto var(--space-2xl);
+}
+.result-stat {
+  padding: var(--space-lg); border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);
+}
+.result-stat .rs-value {
+  font-family: var(--font-heading); font-size: 1.5rem; font-weight: 800;
+  color: var(--accent-primary); margin-bottom: 2px;
+}
+.result-stat .rs-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+.results-actions { display: flex; justify-content: center; gap: var(--space-md); }
+
+@media (max-width: 768px) {
+  .quiz-options { grid-template-columns: 1fr; }
+  .results-stats { grid-template-columns: 1fr; }
+  .quiz-header { flex-direction: column; gap: var(--space-md); text-align: center; }
+}
+
+/* Quiz Hub Card Hover */
+.quiz-hub-card:hover {
+  border-color: var(--border-glow) !important;
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glow);
+}
