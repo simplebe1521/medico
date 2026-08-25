@@ -14,8 +14,10 @@ const PORT = process.env.PORT || 8001;
 app.use(cors());
 app.use(express.json());
 
-// Serve static frontend files
-app.use(express.static(path.join(__dirname)));
+// Serve static frontend files in local development mode
+if (!process.env.VERCEL) {
+  app.use(express.static(path.join(__dirname)));
+}
 
 // Safe data storage directory (use /tmp in serverless environments like Vercel)
 const dataDir = process.env.VERCEL ? path.join('/tmp', 'medsim-data') : path.join(__dirname, 'data');
@@ -137,10 +139,12 @@ app.post('/api/progress', (req, res) => {
   res.json({ success: true, progress: newProgress });
 });
 
-// Fallback route for SPA
-app.get('/{*path}', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
+// Fallback route for SPA in local development mode
+if (!process.env.VERCEL) {
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+  });
+}
 
 // Start server locally if not in Vercel serverless environment
 if (!process.env.VERCEL && require.main === module) {
