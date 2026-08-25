@@ -12,14 +12,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- CSS Modules -->
-  <link rel="stylesheet" href="css/style.css?v=13.0">
-  <link rel="stylesheet" href="css/components.css?v=13.0">
-  <link rel="stylesheet" href="css/portal.css?v=13.0">
-  <link rel="stylesheet" href="css/simulation.css?v=13.0">
-  <link rel="stylesheet" href="css/quiz.css?v=13.0">
-  <link rel="stylesheet" href="css/dashboard.css?v=13.0">
-  <link rel="stylesheet" href="css/hero.css?v=13.0">
-  <link rel="stylesheet" href="css/notes.css?v=13.0">
+  <link rel="stylesheet" href="/css/style.css?v=13.0">
+  <link rel="stylesheet" href="/css/components.css?v=13.0">
+  <link rel="stylesheet" href="/css/portal.css?v=13.0">
+  <link rel="stylesheet" href="/css/simulation.css?v=13.0">
+  <link rel="stylesheet" href="/css/quiz.css?v=13.0">
+  <link rel="stylesheet" href="/css/dashboard.css?v=13.0">
+  <link rel="stylesheet" href="/css/hero.css?v=13.0">
+  <link rel="stylesheet" href="/css/notes.css?v=13.0">
   
   <!-- Dependencies -->
   <script type="importmap">
@@ -176,7 +176,7 @@
               
               <!-- Hero Anatomy Visual -->
               <div class="hero-anatomy-visual" style="flex:0 0 320px; max-width:320px;">
-                <img src="images/anatomy-hero.png" alt="3D Human Anatomy Visualization" style="width:100%; height:auto; border-radius:20px; filter:drop-shadow(0 0 40px rgba(0, 212, 255, 0.25)); animation:float 6s ease-in-out infinite;" />
+                <img src="/images/anatomy-hero.png" alt="3D Human Anatomy Visualization" style="width:100%; height:auto; border-radius:20px; filter:drop-shadow(0 0 40px rgba(0, 212, 255, 0.25)); animation:float 6s ease-in-out infinite;" />
               </div>
             </div>
           </section>
@@ -192,7 +192,7 @@
               
               <div class="dash-card feature-shortcut-card" data-nav="topics" style="cursor:pointer; border:1px solid var(--border-subtle); transition:all 0.3s; overflow:hidden;" onclick="window.router.navigate('topics')">
                 <div style="height:140px; overflow:hidden; border-radius:10px; margin:-24px -24px 16px -24px;">
-                  <img src="images/skeleton.png" alt="Human Skeleton" style="width:100%; height:100%; object-fit:cover; object-position:center top; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
+                  <img src="/images/skeleton.png" alt="Human Skeleton" style="width:100%; height:100%; object-fit:cover; object-position:center top; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
                 </div>
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                   <span style="font-size:1.5rem;">🦴</span>
@@ -205,7 +205,7 @@
 
               <div class="dash-card feature-shortcut-card" data-nav="lab" style="cursor:pointer; border:1px solid var(--border-subtle); transition:all 0.3s; overflow:hidden;" onclick="window.launchLab('clinical_skills', 'iv_cannulation')">
                 <div style="height:140px; overflow:hidden; border-radius:10px; margin:-24px -24px 16px -24px;">
-                  <img src="images/iv-cannulation.png" alt="IV Cannulation Procedure" style="width:100%; height:100%; object-fit:cover; object-position:center; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
+                  <img src="/images/iv-cannulation.png" alt="IV Cannulation Procedure" style="width:100%; height:100%; object-fit:cover; object-position:center; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
                 </div>
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                   <span style="font-size:1.5rem;">💉</span>
@@ -218,7 +218,7 @@
 
               <div class="dash-card feature-shortcut-card" data-nav="cases" style="cursor:pointer; border:1px solid var(--border-subtle); transition:all 0.3s; overflow:hidden;" onclick="window.router.navigate('cases')">
                 <div style="height:140px; overflow:hidden; border-radius:10px; margin:-24px -24px 16px -24px;">
-                  <img src="images/heart.png" alt="Human Heart" style="width:100%; height:100%; object-fit:cover; object-position:center; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
+                  <img src="/images/heart.png" alt="Human Heart" style="width:100%; height:100%; object-fit:cover; object-position:center; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
                 </div>
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                   <span style="font-size:1.5rem;">📋</span>
@@ -231,7 +231,7 @@
 
               <div class="dash-card feature-shortcut-card" data-nav="viva" style="cursor:pointer; border:1px solid var(--border-subtle); transition:all 0.3s; overflow:hidden;" onclick="window.router.navigate('viva')">
                 <div style="height:140px; overflow:hidden; border-radius:10px; margin:-24px -24px 16px -24px;">
-                  <img src="images/brain.png" alt="Human Brain" style="width:100%; height:100%; object-fit:cover; object-position:center; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
+                  <img src="/images/brain.png" alt="Human Brain" style="width:100%; height:100%; object-fit:cover; object-position:center; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
                 </div>
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                   <span style="font-size:1.5rem;">🎓</span>
@@ -244,7 +244,7 @@
 
               <div class="dash-card feature-shortcut-card" data-nav="ai" style="cursor:pointer; border:1px solid var(--border-subtle); transition:all 0.3s; overflow:hidden;" onclick="window.router.navigate('ai')">
                 <div style="height:140px; overflow:hidden; border-radius:10px; margin:-24px -24px 16px -24px;">
-                  <img src="images/lungs.png" alt="Human Lungs" style="width:100%; height:100%; object-fit:cover; object-position:center; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
+                  <img src="/images/lungs.png" alt="Human Lungs" style="width:100%; height:100%; object-fit:cover; object-position:center; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
                 </div>
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                   <span style="font-size:1.5rem;">🤖</span>
@@ -257,7 +257,7 @@
 
               <div class="dash-card feature-shortcut-card" data-nav="notes" style="cursor:pointer; border:1px solid var(--border-subtle); transition:all 0.3s; overflow:hidden;" onclick="window.router.navigate('notes')">
                 <div style="height:140px; overflow:hidden; border-radius:10px; margin:-24px -24px 16px -24px;">
-                  <img src="images/kidneys.png" alt="Human Kidneys" style="width:100%; height:100%; object-fit:cover; object-position:center; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
+                  <img src="/images/kidneys.png" alt="Human Kidneys" style="width:100%; height:100%; object-fit:cover; object-position:center; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
                 </div>
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                   <span style="font-size:1.5rem;">📓</span>
@@ -614,6 +614,6 @@
   </div>
 
   <!-- Main Application Script -->
-  <script type="module" src="js/app.js?v=13.0"></script>
+  <script type="module" src="/js/app.js?v=13.0"></script>
 </body>
 </html>
