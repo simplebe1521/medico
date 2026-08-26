@@ -141,7 +141,7 @@ app.post('/api/progress', (req, res) => {
 
 // Fallback route for SPA in local development mode
 if (!process.env.VERCEL) {
-  app.get('*', (req, res) => {
+  app.use((req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
   });
 }

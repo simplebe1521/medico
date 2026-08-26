@@ -19,10 +19,11 @@ import { QuizEngine } from './quiz.js?v=13.0';
 import { ProgressTracker } from './progress.js?v=13.0';
 import { IVCannulationSimulation } from './cannulation-sim.js?v=13.0';
 import { MBDSRoadmapComponent } from './roadmap.js?v=13.0';
+import { LiveVRManager } from './vr.js?v=13.0';
 import { initScrollAnimations, initCounterAnimations, initSmoothScroll } from './animations.js?v=13.0';
 
 /* ── Globals ── */
-let router, sim, particles, instruments, lessonMgr, tutor, quiz, progress, aiFullView, notesMgr, casesMgr, skillsMgr, vivaMgr, ivSim, roadmapComp;
+let router, sim, particles, instruments, lessonMgr, tutor, quiz, progress, aiFullView, notesMgr, casesMgr, skillsMgr, vivaMgr, ivSim, roadmapComp, vrMgr;
 let currentSubjectId = null, currentTopicId = null;
 let learningMode = 'beginner';
 
@@ -40,11 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
   casesMgr = new ClinicalCases('casesContainer');
   skillsMgr = new PracticalSkills('skillsContainer');
   vivaMgr = new VivaExams('vivaContainer');
+  vrMgr = new LiveVRManager('vrContainer');
   
   // Expose to window for inline onclick handlers
   window.router = router;
   window.casesMgr = casesMgr;
   window.vivaMgr = vivaMgr;
+  window.vrMgr = vrMgr;
   window.launchLab = launchLab;
   
   aiFullView.init();
@@ -52,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
   casesMgr.init();
   skillsMgr.init();
   vivaMgr.init();
+  vrMgr.init();
 
   // Initialize 5-Year MBBS Roadmap
   roadmapComp = new MBDSRoadmapComponent('mbbsRoadmapContainer', {
@@ -93,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Register views
-  ['portal', 'topics', 'lab', 'quiz', 'dashboard', 'cases', 'skills', 'viva', 'ai', 'notes'].forEach(v => {
+  ['portal', 'topics', 'lab', 'quiz', 'dashboard', 'cases', 'skills', 'viva', 'ai', 'notes', 'vr'].forEach(v => {
     const el = document.getElementById(v + 'View');
     if (el) router.register(v, el);
   });

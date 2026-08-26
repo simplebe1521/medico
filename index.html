@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="/css/dashboard.css">
   <link rel="stylesheet" href="/css/hero.css">
   <link rel="stylesheet" href="/css/notes.css">
+  <link rel="stylesheet" href="/css/vr.css">
   
   <!-- Dependencies -->
   <script type="importmap">
@@ -89,6 +90,9 @@
         </a>
         <a href="#" class="nav-tab" data-view="quiz">
           <span class="tab-icon">📝</span> <span class="tab-label">Quizzes</span>
+        </a>
+        <a href="#" class="nav-tab" data-view="vr">
+          <span class="tab-icon">🥽</span> <span class="tab-label">Live VR Demos</span>
         </a>
         <div class="menu-label" style="margin-top:15px;">Study Tools</div>
         <a href="#" class="nav-tab" data-view="ai">
@@ -266,6 +270,22 @@
                 <h3 style="margin:10px 0 6px 0; color:#fff;">My Notes</h3>
                 <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.4;">Record personal study observations, clinical pearls, and procedure reminders directly linked to your simulations.</p>
                 <div style="margin-top:15px; font-size:0.8rem; font-weight:700; color:#ec4899;">Open My Notes ➔</div>
+              </div>
+
+              <div class="dash-card feature-shortcut-card" data-nav="vr" style="cursor:pointer; border:1px solid var(--border-subtle); transition:all 0.3s; overflow:hidden;" onclick="window.router.navigate('vr')">
+                <div style="height:140px; overflow:hidden; border-radius:10px; margin:-24px -24px 16px -24px; position:relative;">
+                  <img src="https://img.youtube.com/vi/J8x1b3D65pM/hqdefault.jpg" alt="Live VR Demo" style="width:100%; height:100%; object-fit:cover; object-position:center; opacity:0.85; transition:transform 0.5s ease, opacity 0.3s;" onmouseover="this.style.transform='scale(1.08)';this.style.opacity='1'" onmouseout="this.style.transform='scale(1)';this.style.opacity='0.85'" />
+                  <div style="position:absolute; inset:0; background:rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center;">
+                    <span style="font-size:2.5rem; filter:drop-shadow(0 0 10px rgba(0,212,255,0.8));">🥽</span>
+                  </div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <span style="font-size:1.5rem;">🥽</span>
+                  <span class="badge" style="background:rgba(0,212,255,0.15); color:#00d4ff; border:1px solid rgba(0,212,255,0.3);">360° VR Box</span>
+                </div>
+                <h3 style="margin:10px 0 6px 0; color:#fff;">Live VR Demos</h3>
+                <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.4;">Watch 360° medical dissections & surgery in YouTube VR Box stereo mode or full screen interactive VR.</p>
+                <div style="margin-top:15px; font-size:0.8rem; font-weight:700; color:#00d4ff;">Launch Live VR ➔</div>
               </div>
 
             </div>
@@ -576,6 +596,10 @@
               <!-- Notes UI will be injected here -->
             </div>
           </div>
+        </div>
+
+        <div id="vrView" class="view-panel">
+          <div id="vrContainer"></div>
         </div>
 
       </div> <!-- end view-container -->
