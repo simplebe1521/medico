@@ -5,42 +5,52 @@
 export const DEFAULT_VR_VIDEOS = [
   {
     id: 'vr_1',
-    youtubeId: 'J8x1b3D65pM',
+    youtubeId: 'JBty9sV7Omc',
     title: '3D Heart Anatomy & Cardiac Tour (360° VR)',
     category: 'Anatomy',
     duration: '5:20',
-    description: 'Immersive 360-degree virtual reality tour inside the human heart by Scientific Animations, showing blood flow, valve mechanics, and cardiac conduction.',
-    thumbnail: 'https://img.youtube.com/vi/J8x1b3D65pM/hqdefault.jpg',
+    description: 'Immersive 360-degree virtual reality tour inside the human heart, showing blood flow, valve mechanics, and cardiac conduction.',
+    thumbnail: 'https://img.youtube.com/vi/JBty9sV7Omc/hqdefault.jpg',
     isDefault: true
   },
   {
     id: 'vr_2',
-    youtubeId: 'y2V8_JjT5q0',
-    title: '360° VR Surgical OR Environment & Procedure',
+    youtubeId: 'fbfLqdhgOW4',
+    title: 'Live Surgical & Clinical Procedure (360° VR)',
     category: 'Surgery',
     duration: '8:45',
-    description: 'Experience a live operating theatre environment during surgical procedure in 360° VR from the chief surgeon\'s perspective.',
-    thumbnail: 'https://img.youtube.com/vi/y2V8_JjT5q0/hqdefault.jpg',
+    description: 'Experience an operating theatre environment and surgical technique in 360° VR stereo mode.',
+    thumbnail: 'https://img.youtube.com/vi/fbfLqdhgOW4/hqdefault.jpg',
     isDefault: true
   },
   {
     id: 'vr_3',
-    youtubeId: '0gBEw7K7MVo',
-    title: 'Human Respiratory & Pulmonary Mechanics (360° VR)',
+    youtubeId: 'kw9EJbezlK4',
+    title: 'Human Anatomical Dissection & Organs (360° VR)',
     category: 'Anatomy',
     duration: '6:15',
-    description: 'Step inside the thoracic cavity and explore lungs, bronchial tree, alveolar ventilation, and diaphragm dynamics in 360° VR.',
-    thumbnail: 'https://img.youtube.com/vi/0gBEw7K7MVo/hqdefault.jpg',
+    description: 'Step inside the body cavity and explore tissue layers, organ relationships, and regional anatomy in 360° VR.',
+    thumbnail: 'https://img.youtube.com/vi/kw9EJbezlK4/hqdefault.jpg',
     isDefault: true
   },
   {
     id: 'vr_4',
-    youtubeId: 'wXvV49w8jE8',
-    title: 'Laparoscopic Abdominal Surgery 360° VR',
-    category: 'Surgery',
-    duration: '10:15',
-    description: '360° view of minimally invasive laparoscopic abdominal surgery, port placements, and organ inspection.',
-    thumbnail: 'https://img.youtube.com/vi/wXvV49w8jE8/hqdefault.jpg',
+    youtubeId: 'v91FwCeLyjE',
+    title: 'Clinical Case & Diagnostic Procedure (360° VR)',
+    category: 'Clinical Skills',
+    duration: '7:30',
+    description: 'Interactive 360° VR clinical simulation demonstrating patient evaluation, vital signs, and bedside skills.',
+    thumbnail: 'https://img.youtube.com/vi/v91FwCeLyjE/hqdefault.jpg',
+    isDefault: true
+  },
+  {
+    id: 'vr_5',
+    youtubeId: 'Fwsfbx1HhIw',
+    title: 'Practical Medical Skills & Lab Simulation (360° VR)',
+    category: 'Emergency',
+    duration: '9:10',
+    description: 'Comprehensive 360-degree VR simulation of emergency clinical protocols and procedure execution.',
+    thumbnail: 'https://img.youtube.com/vi/Fwsfbx1HhIw/hqdefault.jpg',
     isDefault: true
   }
 ];
