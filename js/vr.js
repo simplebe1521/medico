@@ -195,7 +195,7 @@ export class LiveVRManager {
 
     grid.innerHTML = filtered.map(v => `
       <div class="vr-card">
-        <div class="vr-card-thumb" onclick="window.vrMgr.openVRPlayer('${v.youtubeId}', '${this.escapeHtml(v.title)}')">
+        <div class="vr-card-thumb" onclick="window.vrMgr.openYouTubeVRBox('${v.youtubeId}')" title="Click to play 360° VR in YouTube">
           <img src="${v.thumbnail || `https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg`}" alt="${this.escapeHtml(v.title)}" onerror="this.src='https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg'">
           <div class="vr-badge-360"><span>🕶️</span> 360° VR</div>
           <div class="vr-badge-category">${this.escapeHtml(v.category)}</div>
@@ -205,7 +205,7 @@ export class LiveVRManager {
         </div>
 
         <div class="vr-card-content">
-          <h3 class="vr-card-title">${this.escapeHtml(v.title)}</h3>
+          <h3 class="vr-card-title" onclick="window.vrMgr.openYouTubeVRBox('${v.youtubeId}')" style="cursor:pointer;">${this.escapeHtml(v.title)}</h3>
           <p class="vr-card-desc">${this.escapeHtml(v.description)}</p>
           
           <div class="vr-card-meta">
@@ -214,11 +214,11 @@ export class LiveVRManager {
           </div>
 
           <div class="vr-card-actions">
-            <button class="btn-vr-launch-embed" onclick="window.vrMgr.openVRPlayer('${v.youtubeId}', '${this.escapeHtml(v.title)}')">
-              <span>▶</span> Play 360° VR
+            <button class="btn-vr-launch-embed" onclick="window.vrMgr.openYouTubeVRBox('${v.youtubeId}')" style="background: linear-gradient(135deg, #7c3aed 0%, #00d4ff 100%); color: #fff; border: none; font-weight:700;">
+              <span>🥽</span> Play 360° VR Box Mode
             </button>
-            <button class="btn-vr-launch-box" onclick="window.vrMgr.openYouTubeVRBox('${v.youtubeId}')" title="Open YouTube with VR Headset / Google Cardboard Box mode">
-              <span>🥽</span> VR Box Mode
+            <button class="btn-vr-launch-box" onclick="window.vrMgr.openVRPlayer('${v.youtubeId}', '${this.escapeHtml(v.title)}')" title="Preview details in modal player">
+              <span>👁️</span> Web Preview
             </button>
           </div>
         </div>
@@ -303,9 +303,9 @@ export class LiveVRManager {
   }
 
   openYouTubeVRBox(youtubeId) {
-    // YouTube link for 360/VR Box mode
-    const youtubeUrl = `https://www.youtube.com/watch?v=${youtubeId}`;
-    window.open(youtubeUrl, '_blank');
+    const cleanId = LiveVRManager.extractYouTubeId(youtubeId);
+    const youtubeUrl = `https://www.youtube.com/watch?v=${cleanId}`;
+    window.open(youtubeUrl, '_blank', 'noopener,noreferrer');
   }
 
   openAddVRModal() {
